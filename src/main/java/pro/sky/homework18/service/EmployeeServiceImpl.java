@@ -6,18 +6,11 @@ import pro.sky.homework18.exceptions.EmployeeAlreadyAddedException;
 import pro.sky.homework18.exceptions.EmployeeNotFoundException;
 import pro.sky.homework18.exceptions.EmployeeStorageIsFull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private List<Employee> employees = new ArrayList<>(Arrays.asList(
-            new Employee("Тимур", "Тленов"),
-            new Employee("Лев", "Ручалов"),
-            new Employee("Юлия", "Шунина"),
-            new Employee("Кристина", "Неделина")
-    ));
+    private Map<String, Employee> employees = new HashMap<>();
     private final int EMPLOYEES_STORAGE_CAPACITY = 10;
 
     @Override
@@ -26,27 +19,27 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeStorageIsFull("Невозможно добавить сотрудника: достигнут лимит количества сотрудников");
         }
         Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
+        if (employees.containsKey(firstName + " " + lastName)) {
             throw new EmployeeAlreadyAddedException("Невозможно добавить сотрудника: сотрудник с таким именем уже есть");
         }
-        employees.add(employee);
+        employees.put(employee.getFirstName() + " " + employee.getLastName(), employee);
         return employee;
     }
 
     @Override
     public Employee remove(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (!employees.contains(employee)) {
+        if (!employees.containsKey(firstName + " " + lastName)) {
             throw new EmployeeNotFoundException("Сотрудник с таким именем не найден");
         }
-        employees.remove(employee);
+        employees.remove(firstName + " " + lastName);
         return null;
     }
 
     @Override
     public Employee find(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
+        if (employees.containsKey(firstName + " " + lastName)) {
             return employee;
         }
         throw new EmployeeNotFoundException("Сотрудник с таким именем не найден");
@@ -54,6 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployees() {
-        return employees;
+        List<Employee> list = new ArrayList<>(employees.values());
+        return list;
     }
 }
