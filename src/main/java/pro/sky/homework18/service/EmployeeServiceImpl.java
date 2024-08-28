@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee find(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
+        Employee employee = new Employee(firstName, lastName, 0,0);
         if (employees.containsKey(firstName + " " + lastName)) {
             return employee;
         }
