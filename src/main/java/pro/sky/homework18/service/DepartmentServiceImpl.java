@@ -38,8 +38,9 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList());
     }
 
-    public List<Employee> getAllEmployees() {
-        return (List<Employee>) employeeService.getAllEmployees().stream()
-                .collect(Collectors.groupingBy(e -> e.getDepartment()));
+    public Map<Integer, List<Employee>> getAllEmployees() {
+        List<Employee> employees = employeeService.getAllEmployees();
+        return employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 }

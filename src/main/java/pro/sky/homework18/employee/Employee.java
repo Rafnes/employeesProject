@@ -62,12 +62,12 @@ public class Employee {
         }
 
         Employee employee = (Employee) obj;
-        return this.firstName.equals(employee.firstName) && this.lastName.equals(employee.lastName) && this.salary == employee.salary && this.department == employee.department;
+        return this.firstName.equals(employee.firstName) && this.lastName.equals(employee.lastName) && this.department == employee.department && this.salary == employee.salary;
     }
 
     @Override
     public int hashCode() {
-        return hash(firstName, lastName, salary, department);
+        return hash(firstName, lastName, department, salary);
     }
 
     @Override

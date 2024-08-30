@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pro.sky.homework18.employee.Employee;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface DepartmentService {
@@ -13,5 +14,5 @@ public interface DepartmentService {
 
     List<Employee> getEmployeesByDept(int departmentId);
 
-    List<Employee> getAllEmployees();
+    Map<Integer, List<Employee>> getAllEmployees();
 }

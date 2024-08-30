@@ -14,11 +14,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final int EMPLOYEES_STORAGE_CAPACITY = 10;
 
     @Override
-    public Employee add(String firstName, String lastName) {
+    public Employee add(String firstName, String lastName, int salary, int department) {
         if (employees.size() >= EMPLOYEES_STORAGE_CAPACITY) {
             throw new EmployeeStorageIsFull("Невозможно добавить сотрудника: достигнут лимит количества сотрудников");
         }
-        Employee employee = new Employee(firstName, lastName);
+        Employee employee = new Employee(firstName, lastName, salary, department);
         if (employees.containsKey(firstName + " " + lastName)) {
             throw new EmployeeAlreadyAddedException("Невозможно добавить сотрудника: сотрудник с таким именем уже есть");
         }
