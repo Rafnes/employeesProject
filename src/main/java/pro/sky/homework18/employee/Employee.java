@@ -1,5 +1,8 @@
 package pro.sky.homework18.employee;
 
+import org.apache.commons.lang3.StringUtils;
+import pro.sky.homework18.exceptions.InvalidEmployeeNameException;
+
 import static java.util.Objects.hash;
 
 public class Employee {
@@ -29,10 +32,18 @@ public class Employee {
     }
 
     public void setFirstName(String firstName) {
+        if (!StringUtils.isAlpha(firstName)) {
+            throw new InvalidEmployeeNameException();
+        }
+        StringUtils.capitalize(firstName);
         this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
+        if (!StringUtils.isAlpha(lastName)) {
+            throw new InvalidEmployeeNameException();
+        }
+        StringUtils.capitalize(lastName);
         this.lastName = lastName;
     }
 
