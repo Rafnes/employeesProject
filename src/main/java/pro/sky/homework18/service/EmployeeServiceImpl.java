@@ -1,5 +1,6 @@
 package pro.sky.homework18.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.homework18.employee.Employee;
 import pro.sky.homework18.exceptions.EmployeeAlreadyAddedException;
@@ -13,11 +14,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     private Map<String, Employee> employees = new HashMap<>();
     private final int EMPLOYEES_STORAGE_CAPACITY = 10;
 
+    private final ValidationService validationService;
+
+    public EmployeeServiceImpl(ValidationService validationService) {
+        this.validationService = validationService;
+    }
+
     @Override
     public Employee add(String firstName, String lastName, int salary, int department) {
         if (employees.size() >= EMPLOYEES_STORAGE_CAPACITY) {
             throw new EmployeeStorageIsFull("Невозможно добавить сотрудника: достигнут лимит количества сотрудников");
         }
+
+        validationService.validateName(firstName, lastName);
+        StringUtils.capitalize(firstName);
+        StringUtils.capitalize(lastName);
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (employees.containsKey(firstName + " " + lastName)) {
             throw new EmployeeAlreadyAddedException("Невозможно добавить сотрудника: сотрудник с таким именем уже есть");
@@ -38,6 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee find(String firstName, String lastName) {
+        StringUtils.capitalize(firstName);
+        StringUtils.capitalize(lastName);
         Employee employee = new Employee(firstName, lastName, 0,0);
         if (employees.containsKey(firstName + " " + lastName)) {
             return employee;
