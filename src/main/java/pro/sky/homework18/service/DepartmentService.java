@@ -12,6 +12,8 @@ public interface DepartmentService {
 
     Employee getDeptMinSalaryEmployee(int departmentId);
 
+    String getSalariesSumByDept(int departmentId);
+
     List<Employee> getEmployeesByDept(int departmentId);
 
     Map<Integer, List<Employee>> getAllEmployees();

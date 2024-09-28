@@ -1,5 +1,6 @@
 package pro.sky.homework18.service;
 
+import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.homework18.employee.Employee;
@@ -20,12 +21,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.validationService = validationService;
     }
 
+    public int getEmployeesStorageCapacity() {
+        return EMPLOYEES_STORAGE_CAPACITY;
+    }
+
+    @PostConstruct
+    public void init() {
+        employees.put("Иван Иванов", new Employee("Иван", "Иванов", 1, 10000));
+        employees.put("Анна Анютина", new Employee("Анна", "Анютина", 1, 15000));
+        employees.put("Михаил Михайлов", new Employee("Михаил", "Михайлов", 2, 12000));
+        employees.put("Юлия Юльина", new Employee("Юлия", "Юльина", 2, 17000));
+    }
+
     @Override
-    public Employee add(String firstName, String lastName, int salary, int department) {
+    public Employee add(String firstName, String lastName, int department, int salary) {
         if (employees.size() >= EMPLOYEES_STORAGE_CAPACITY) {
             throw new EmployeeStorageIsFull("Невозможно добавить сотрудника: достигнут лимит количества сотрудников");
         }
-
         validationService.validateName(firstName, lastName);
         StringUtils.capitalize(firstName);
         StringUtils.capitalize(lastName);
@@ -51,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee find(String firstName, String lastName) {
         StringUtils.capitalize(firstName);
         StringUtils.capitalize(lastName);
-        Employee employee = new Employee(firstName, lastName, 0,0);
+        Employee employee = new Employee(firstName, lastName, 0, 0);
         if (employees.containsKey(firstName + " " + lastName)) {
             return employee;
         }

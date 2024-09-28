@@ -1,9 +1,6 @@
 package pro.sky.homework18.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.homework18.employee.Employee;
 import pro.sky.homework18.service.DepartmentService;
 
@@ -11,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/departments")
+@RequestMapping("/department")
 public class DepartmentController {
     private final DepartmentService departmentService;
 
@@ -19,22 +16,27 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/max-salary")
-    public Employee getMaxSalaryEmployeeInDept(@RequestParam("departmentId") int departmentId) {
+    @GetMapping("/{id}/salary/max")
+    public Employee getMaxSalaryEmployeeInDept(@PathVariable("id") int departmentId) {
         return departmentService.getDeptMaxSalaryEmployee(departmentId);
     }
 
-    @GetMapping("/min-salary")
-    public Employee getMinSalaryEmployeeInDept(@RequestParam("departmentId") int departmentId) {
+    @GetMapping("/{id}/salary/min")
+    public Employee getMinSalaryEmployeeInDept(@PathVariable("id") int departmentId) {
         return departmentService.getDeptMinSalaryEmployee(departmentId);
     }
 
-    @GetMapping("/all-by-dept")
-    public List<Employee> getAllEmployeesInDept(@RequestParam("departmentId") int departmentId) {
+    @GetMapping("/{id}/salary/sum")
+    public String getSalariesSumByDept(@PathVariable("id")int departmentId) {
+        return departmentService.getSalariesSumByDept(departmentId);
+    }
+
+    @GetMapping("/{id}/employees")
+    public List<Employee> getAllEmployeesInDept(@PathVariable("id") int departmentId) {
         return departmentService.getEmployeesByDept(departmentId);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/employees")
     public Map<Integer, List<Employee>> getAllEmployees() {
         return departmentService.getAllEmployees();
     }
