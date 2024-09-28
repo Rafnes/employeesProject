@@ -32,6 +32,14 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .orElseThrow();
     }
 
+    public String getSalariesSumByDept(int departmentId) {
+        List<Employee> employeesInDept = getEmployeesByDept(departmentId);
+        int sum = employeesInDept.stream().
+                mapToInt(Employee::getSalary).
+                sum();
+        return "Сумма зарплат по департаменту " + departmentId + ": " + sum;
+    }
+
     public List<Employee> getEmployeesByDept(int departmentId) {
         return employeeService.getAllEmployees().stream()
                 .filter(e -> e.getDepartment() == departmentId)
